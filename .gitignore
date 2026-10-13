@@ -1,0 +1,17 @@
+# Generated Python files
+__pycache__/
+*.py[cod]
+
+# Vehicle-specific and potentially sensitive files
+*.llgx
+*.pcl
+*.pcl5
+*.pclx
+link-ecu-vehicle-profile.md
+logs/
+
+# Generated reports and release packages
+output/
+outputs/
+dist/
+*.zip
