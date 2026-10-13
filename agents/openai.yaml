@@ -1,0 +1,4 @@
+interface:
+  display_name: "Link ECU Log Analyzer"
+  short_description: "Analyze Link ECU logs using vehicle-specific context"
+  default_prompt: "Use $link-ecu-log-analyzer to guide me through first-time vehicle setup and create my profile."
