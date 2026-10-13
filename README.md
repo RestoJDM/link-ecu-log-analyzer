@@ -110,6 +110,7 @@ Reports normally include:
 
 ```text
 link-ecu-log-analyzer/
+├── LICENSE
 ├── README.md
 ├── SKILL.md
 ├── agents/
@@ -133,6 +134,10 @@ link-ecu-log-analyzer/
 - **The report cannot judge a limit** — add the applicable builder/OEM limit, target-table value, sensor reference, or same-build baseline to the vehicle profile.
 
 The parser reflects an observed PCLink `ds3` layout and may need updates for future format revisions.
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright (c) 2026 RestoJDM.
 
 ## Safety
 
