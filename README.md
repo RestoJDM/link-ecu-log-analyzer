@@ -1,5 +1,8 @@
 # Link ECU Log Analyzer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/RestoJDM/link-ecu-log-analyzer?label=release)](https://github.com/RestoJDM/link-ecu-log-analyzer/releases/latest)
+
 A reusable Codex/Agent Skill for analyzing Link ECU and PCLink `.llgx` logs across different engines, vehicles, fuels, sensors, and calibration strategies.
 
 The skill quantifies log behavior first, uses vehicle-specific references when available, and deliberately limits its conclusions when configuration or safety information is unknown. It does not ship with targets or thresholds copied from a particular engine build.
@@ -24,6 +27,24 @@ The ZIP contains one top-level `link-ecu-log-analyzer` folder. Import the ZIP us
 For OpenAI-hosted skill upload and API integration, see the [official Agent Skills documentation](https://developers.openai.com/api/docs/guides/tools-skills).
 
 The parser uses only the Python standard library and has no third-party package requirements.
+
+## Isolated local parser
+
+For users who want a strict host-filesystem boundary when running the bundled parser locally, [`scripts/run-parser-sandboxed.ps1`](scripts/run-parser-sandboxed.ps1) launches it in Docker with:
+
+- only the selected `.llgx` file mounted, read-only;
+- networking disabled;
+- the container filesystem read-only except for a small temporary in-memory directory;
+- Linux capabilities removed and privilege escalation disabled;
+- validation that rejects input paths outside the project and rejects symbolic links or junctions.
+
+Place the `.llgx` file somewhere inside the project folder, install and start Docker Desktop, then run:
+
+```powershell
+.\scripts\run-parser-sandboxed.ps1 .\logs\example.llgx -List
+```
+
+The launcher requires the selected log to be inside this project folder, but the container receives only that one read-only file. Other project files and all host files outside the project remain unmounted. The harness does not alter or control ChatGPT's hosted skill environment. A skill instruction alone is not a filesystem security boundary; the execution host must enforce isolation.
 
 ## First-time guided setup
 
@@ -110,6 +131,7 @@ Reports normally include:
 
 ```text
 link-ecu-log-analyzer/
+├── .dockerignore
 ├── LICENSE
 ├── README.md
 ├── SKILL.md
@@ -122,8 +144,11 @@ link-ecu-log-analyzer/
 │   ├── analysis-playbook.md
 │   ├── evidence-and-safety-gates.md
 │   └── onboarding-and-profile-use.md
+├── sandbox/
+│   └── Dockerfile
 └── scripts/
-    └── parse_llgx.py
+    ├── parse_llgx.py
+    └── run-parser-sandboxed.ps1
 ```
 
 ## Troubleshooting
